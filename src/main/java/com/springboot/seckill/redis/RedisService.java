@@ -21,7 +21,6 @@ public class RedisService {
 		 Jedis jedis = null;
 		 try {
 			 jedis =  jedisPool.getResource();
-			 //生成真正的key
 			 String realKey  = prefix.getPrefix() + key;
 			 String  str = jedis.get(realKey);
 			 T t =  stringToBean(str, clazz);
@@ -42,7 +41,6 @@ public class RedisService {
 			 if(str == null || str.length() <= 0) {
 				 return false;
 			 }
-			//生成真正的key
 			 String realKey  = prefix.getPrefix() + key;
 			 int seconds =  prefix.expireSeconds();
 			 if(seconds <= 0) {
@@ -63,7 +61,6 @@ public class RedisService {
 		 Jedis jedis = null;
 		 try {
 			 jedis =  jedisPool.getResource();
-			//生成真正的key
 			 String realKey  = prefix.getPrefix() + key;
 			return  jedis.exists(realKey);
 		 }finally {
@@ -78,7 +75,6 @@ public class RedisService {
 		 Jedis jedis = null;
 		 try {
 			 jedis =  jedisPool.getResource();
-			//生成真正的key
 			 String realKey  = prefix.getPrefix() + key;
 			return  jedis.incr(realKey);
 		 }finally {
@@ -93,7 +89,6 @@ public class RedisService {
 		 Jedis jedis = null;
 		 try {
 			 jedis =  jedisPool.getResource();
-			//生成真正的key
 			 String realKey  = prefix.getPrefix() + key;
 			return  jedis.decr(realKey);
 		 }finally {
