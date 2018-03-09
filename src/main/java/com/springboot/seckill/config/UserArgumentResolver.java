@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.springboot.seckill.domain.SecKillUser;
-import com.springboot.seckill.service.RecKillUserService;
+import com.springboot.seckill.service.SecKillUserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
@@ -19,7 +19,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 public class UserArgumentResolver implements HandlerMethodArgumentResolver {
 
 	@Autowired
-	RecKillUserService userService;
+    SecKillUserService userService;
 	
 	public boolean supportsParameter(MethodParameter parameter) {
 		Class<?> clazz = parameter.getParameterType();
@@ -31,8 +31,8 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
 		HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
 		HttpServletResponse response = webRequest.getNativeResponse(HttpServletResponse.class);
 		
-		String paramToken = request.getParameter(RecKillUserService.COOKI_NAME_TOKEN);
-		String cookieToken = getCookieValue(request, RecKillUserService.COOKI_NAME_TOKEN);
+		String paramToken = request.getParameter(SecKillUserService.COOKI_NAME_TOKEN);
+		String cookieToken = getCookieValue(request, SecKillUserService.COOKI_NAME_TOKEN);
 		if(StringUtils.isEmpty(cookieToken) && StringUtils.isEmpty(paramToken)) {
 			return null;
 		}

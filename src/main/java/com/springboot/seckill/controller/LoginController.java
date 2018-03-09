@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.springboot.seckill.redis.RedisService;
 import com.springboot.seckill.result.Result;
-import com.springboot.seckill.service.RecKillUserService;
+import com.springboot.seckill.service.SecKillUserService;
 import com.springboot.seckill.vo.LoginVo;
 
 @Controller
@@ -22,7 +22,7 @@ public class LoginController {
 	private static Logger log = LoggerFactory.getLogger(LoginController.class);
 	
 	@Autowired
-    RecKillUserService userService;
+    SecKillUserService userService;
 	
 	@Autowired
 	RedisService redisService;
