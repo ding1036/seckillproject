@@ -13,10 +13,7 @@ public class RedisService {
 	
 	@Autowired
 	JedisPool jedisPool;
-	
-	/**
-	 * 获取当个对象
-	 * */
+
 	public <T> T get(KeyPrefix prefix, String key,  Class<T> clazz) {
 		 Jedis jedis = null;
 		 try {
@@ -29,10 +26,7 @@ public class RedisService {
 			  returnToPool(jedis);
 		 }
 	}
-	
-	/**
-	 * 设置对象
-	 * */
+
 	public <T> boolean set(KeyPrefix prefix, String key,  T value) {
 		 Jedis jedis = null;
 		 try {
@@ -53,10 +47,7 @@ public class RedisService {
 			  returnToPool(jedis);
 		 }
 	}
-	
-	/**
-	 * 判断key是否存在
-	 * */
+
 	public <T> boolean exists(KeyPrefix prefix, String key) {
 		 Jedis jedis = null;
 		 try {
@@ -68,9 +59,6 @@ public class RedisService {
 		 }
 	}
 	
-	/**
-	 * 增加值
-	 * */
 	public <T> Long incr(KeyPrefix prefix, String key) {
 		 Jedis jedis = null;
 		 try {
@@ -81,10 +69,7 @@ public class RedisService {
 			  returnToPool(jedis);
 		 }
 	}
-	
-	/**
-	 * 减少值
-	 * */
+
 	public <T> Long decr(KeyPrefix prefix, String key) {
 		 Jedis jedis = null;
 		 try {

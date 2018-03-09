@@ -7,4 +7,4 @@
 * mysql
 * druid
 
-### notes
+### database structure

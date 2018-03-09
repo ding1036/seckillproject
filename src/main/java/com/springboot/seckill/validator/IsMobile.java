@@ -22,7 +22,7 @@ public @interface  IsMobile {
 	
 	boolean required() default true;
 	
-	String message() default "手机号码格式错误";
+	String message() default "phone is invalidate";
 
 	Class<?>[] groups() default { };
 

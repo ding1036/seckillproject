@@ -39,7 +39,7 @@ public class RecKillUserService {
 			return null;
 		}
 		SecKillUser user = redisService.get(SecKillUserKey.token, token, SecKillUser.class);
-		//延长有效期
+		//extend exist time
 		if(user != null) {
 			addCookie(response, token, user);
 		}
@@ -53,19 +53,19 @@ public class RecKillUserService {
 		}
 		String mobile = loginVo.getMobile();
 		String formPass = loginVo.getPassword();
-		//判断手机号是否存在
+		//check phone
 		SecKillUser user = getById(Long.parseLong(mobile));
 		if(user == null) {
 			throw new GlobalException(CodeMsg.MOBILE_NOT_EXIST);
 		}
-		//验证密码
+		//check password
 		String dbPass = user.getPassword();
 		String saltDB = user.getSalt();
 		String calcPass = MD5Util.formPassToDBPass(formPass, saltDB);
 		if(!calcPass.equals(dbPass)) {
 			throw new GlobalException(CodeMsg.PASSWORD_ERROR);
 		}
-		//生成cookie
+		//generate cookie
 		String token	 = UUIDUtil.uuid();
 		addCookie(response, token, user);
 		return true;
