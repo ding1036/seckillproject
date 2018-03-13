@@ -35,7 +35,7 @@ public class GoodsController {
 	GoodsService goodsService;
 
 	@Autowired
-	ThymeleafViewResolver thymeleafViewResolver;
+    ThymeleafViewResolver thymeleafViewResolver;
 
 	@Autowired
 	ApplicationContext applicationContext;
@@ -50,7 +50,6 @@ public class GoodsController {
 		}
     	List<GoodsVo> goodsList = goodsService.listGoodsVo();
 		model.addAttribute("goodsList",goodsList);
-
 		SpringWebContext ctx = new SpringWebContext(request,response,
 				request.getServletContext(),request.getLocale(), model.asMap(), applicationContext);
 		html = thymeleafViewResolver.getTemplateEngine().process("goods_list",ctx);
@@ -95,7 +94,7 @@ public class GoodsController {
 		if(!StringUtils.isEmpty(html)){
 			redisService.set(GoodsKey.getGoodsDetail,""+goodsId,html);
 		}
-		return "goods_detail";
+		return html;
 	}
     
 }

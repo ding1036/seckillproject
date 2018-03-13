@@ -3,30 +3,28 @@ package com.springboot.seckill.controller;
 import com.springboot.seckill.domain.OrderInfo;
 import com.springboot.seckill.domain.SecKillOrder;
 import com.springboot.seckill.domain.SecKillUser;
-import com.springboot.seckill.redis.RedisService;
 import com.springboot.seckill.result.CodeMsg;
 import com.springboot.seckill.service.GoodsService;
 import com.springboot.seckill.service.OrderService;
-import com.springboot.seckill.service.SecKillUserService;
 import com.springboot.seckill.service.SeckillService;
 import com.springboot.seckill.vo.GoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
-
+@Controller
 @RequestMapping("/seckill")
 public class SeckillController {
     @Autowired
     GoodsService goodsService;
 
     @Autowired
-    OrderService orderService;
+    SeckillService seckillService;
 
     @Autowired
-    SeckillService seckillService;
+    OrderService orderService;
 
     @RequestMapping("/do_seckill")
     public String doSeckill(Model model, SecKillUser user,
@@ -42,7 +40,7 @@ public class SeckillController {
             return "seckill_fail";
         }
         SecKillOrder order =  orderService.getSeckillOrderByUserIdGoodsId(user.getId(),goodsId);
-        if(order == null){
+        if(order != null){
             model.addAttribute("errmsg",CodeMsg.REPEATE_SECKILL);
             return "seckill_fail";
         }

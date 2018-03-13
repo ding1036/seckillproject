@@ -15,6 +15,6 @@ public interface OrderDao {
     @SelectKey(keyColumn="id", keyProperty="id", resultType=long.class, before=false, statement="select last_insert_id()")
     public long insert(OrderInfo orderInfo);
 
-    @Insert("insert into seckill_order(user_id,goods_id,order_id) values (#{userId},#{goods_id},#{order_id})")
+    @Insert("insert into seckill_order(user_id,goods_id,order_id) values (#{userId},#{goodsId},#{orderId})")
     public int insertSeckillOrder(SecKillOrder secKillOrder);
 }
