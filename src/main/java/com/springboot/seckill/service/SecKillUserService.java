@@ -30,14 +30,14 @@ public class SecKillUserService {
 	RedisService redisService;
 	
 	public SecKillUser getById(long id) {
-		SecKillUser user = redisService.get(SecKillUserKey.getById,""+id,SecKillUser.class);
-		if(user!=null){
-			return user;
-		}
-		user = secKillUserDao.getById(id);
-		if(user!=null){
-			redisService.set(SecKillUserKey.getById,""+id,SecKillUser.class);
-		}
+		//SecKillUser user = redisService.get(SecKillUserKey.getById,""+id,SecKillUser.class);
+		//if(user!=null){
+		//	return user;
+		//}
+		SecKillUser user = secKillUserDao.getById(id);
+		//if(user!=null){
+		//	redisService.set(SecKillUserKey.getById,""+id,SecKillUser.class);
+		//}
 		return user;
 	}
 

@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `user`(
 ```
 #### basic mysql command
 ```
-
+change mysql password: SET PASSWORD FOR 'root'@'localhost' = PASSWORD('123456');
 enter mysql:    mysql -uroot -p123456
 enter database:   use databaseName;
 show table list:  show tables;
@@ -97,6 +97,13 @@ create table `order_info`(
 `pay_date` datetime DEFAULT NULL COMMENT 'pay time',
 PRIMARY KEY(`id`)
 )ENGINE = InnoDB AUTO_INCREMENT = 3 DEFAULT CHARSET = utf8mb4;
+```
+
+
+### test sql
+```
+update seckill_goods set start_date = '2018-03-13 20:54:00',end_date = '2018-03-13 20:56:00' where id in ('1','2');
+
 ```
 #### create table `seckill_order`
 ```
