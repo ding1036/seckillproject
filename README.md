@@ -92,7 +92,7 @@ create table `order_info`(
 `goods_count` int(11) DEFAULT '0' COMMENT 'goods number',
 `goods_price` decimal(10,2) DEFAULT '0.00' COMMENT 'goods price',
 `order_channel` tinyint(4) DEFAULT '0' COMMENT 'order channel',
-`status` tinyint(4) DEFAULT '0' COMMENT '0:new 1:paid 2:send 3.recieve 4.return money 5.finished',
+`status` tinyint(4) DEFAULT '0' COMMENT '0:new 1:paid 2:send 3.receive 4.return money 5.finished',
 `create_date` datetime DEFAULT NULL COMMENT 'create time',
 `pay_date` datetime DEFAULT NULL COMMENT 'pay time',
 PRIMARY KEY(`id`)

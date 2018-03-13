@@ -5,6 +5,7 @@ import com.springboot.seckill.vo.GoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.springboot.seckill.domain.SecKillUser;
@@ -32,5 +33,31 @@ public class GoodsController {
 		model.addAttribute("goodsList",goodsList);
         return "goods_list";
     }
+
+	@RequestMapping("/to_detail/{goodsid}")
+	public String detail(Model model, SecKillUser user,
+						 @PathVariable("goodsid")long goodsId) {
+    	//snowflake
+		model.addAttribute("user", user);
+		GoodsVo goods = goodsService.getGoodsVoByGoodsId(goodsId);
+		long startAt =goods.getStartDate().getTime();
+		long endAt = goods.getEndDate().getTime();
+		long now = System.currentTimeMillis();
+		int seckillStatus = 0;
+		int remainSeconds = 0;
+		if(now < startAt){
+			seckillStatus = 0;
+			remainSeconds = (int)((startAt -now)/1000);
+		}else if(now>endAt){
+			seckillStatus = 2;
+			remainSeconds = -1;
+		}else{
+			seckillStatus = 1;
+			remainSeconds = 0;
+		}
+		model.addAttribute("seckillStatus",seckillStatus);
+		model.addAttribute("remainSeconds",remainSeconds);
+		return "goods_detail";
+	}
     
 }

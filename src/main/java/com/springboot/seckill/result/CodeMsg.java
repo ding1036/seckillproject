@@ -9,7 +9,7 @@ public class CodeMsg {
 	public static CodeMsg SUCCESS = new CodeMsg(0, "success");
 	public static CodeMsg SERVER_ERROR = new CodeMsg(500100, "server error");
 	public static CodeMsg BIND_ERROR = new CodeMsg(500101, "param error：%s");
-	//login modal 5002XX
+	//login model 5002XX
 	public static CodeMsg SESSION_ERROR = new CodeMsg(500210, "Session do not exist");
 	public static CodeMsg PASSWORD_EMPTY = new CodeMsg(500211, "password can not be null");
 	public static CodeMsg MOBILE_EMPTY = new CodeMsg(500212, "phone is null");
@@ -17,11 +17,13 @@ public class CodeMsg {
 	public static CodeMsg MOBILE_NOT_EXIST = new CodeMsg(500214, "phone not exist");
 	public static CodeMsg PASSWORD_ERROR = new CodeMsg(500215, "wrong password");
 	
-	//list modal 5003XX
+	//list model 5003XX
 	
-	//order modal 5004XX
+	//order model 5004XX
 	
-	//seckill modal 5005XX
+	//seckill model 5005XX
+	public static CodeMsg SECKILL_OVER = new CodeMsg(500500, "seckill over");
+	public static CodeMsg REPEATE_SECKILL = new CodeMsg(500501, "can not repeate seckill");
 	
 	private CodeMsg( ) {
 	}

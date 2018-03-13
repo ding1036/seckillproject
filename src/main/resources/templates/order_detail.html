@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>order detail</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!-- jquery -->
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <!-- bootstrap -->
+    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap/css/bootstrap.min.css}" />
+    <script type="text/javascript" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+    <!-- jquery-validator -->
+    <script type="text/javascript" th:src="@{/jquery-validation/jquery.validate.min.js}"></script>
+    <script type="text/javascript" th:src="@{/jquery-validation/localization/messages_zh.min.js}"></script>
+    <!-- layer -->
+    <script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+    <!-- md5.js -->
+    <script type="text/javascript" th:src="@{/js/md5.min.js}"></script>
+    <!-- common.js -->
+    <script type="text/javascript" th:src="@{/js/common.js}"></script>
+</head>
+<body>
+<div class="panel panel-default">
+  <div class="panel-heading">seckill order detail</div>
+  <table class="table" id="goodslist">
+        <tr>  
+        <td>goods name</td>
+        <td th:text="${goods.goodsName}" colspan="3"></td> 
+     </tr>  
+     <tr>  
+        <td>goods picture</td>
+        <td colspan="2"><img th:src="@{${goods.goodsImg}}" width="200" height="200" /></td>  
+     </tr>
+      <tr>  
+        <td>goods price</td>
+        <td colspan="2" th:text="${orderInfo.goodsPrice}"></td>  
+     </tr>
+     <tr>
+     		<td>order time</td>
+        	<td th:text="${#dates.format(orderInfo.createDate, 'yyyy-MM-dd HH:mm:ss')}" colspan="2"></td>  
+     </tr>
+     <tr>
+     	<td>order status</td>
+        <td >
+        	<span th:if="${orderInfo.status eq 0}">unpaid</span>
+        	<span th:if="${orderInfo.status eq 1}">paid</span>
+        	<span th:if="${orderInfo.status eq 2}">send</span>
+        	<span th:if="${orderInfo.status eq 3}">receive</span>
+        	<span th:if="${orderInfo.status eq 4}">return money</span>
+        	<span th:if="${orderInfo.status eq 5}">finished</span>
+        </td>  
+        <td>
+        	<button class="btn btn-primary btn-block" type="submit" id="payButton">paid now</button>
+        </td>
+     </tr>
+      <tr>
+     		<td>receive</td>
+        	<td colspan="2">XXX  1234567890</td>
+     </tr>
+     <tr>
+     		<td>receive address</td>
+        	<td colspan="2">XXXXXXXXXXXXXX</td>
+     </tr>
+  </table>
+</div>
+
+</body>
+</html>

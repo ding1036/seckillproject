@@ -1,6 +1,6 @@
 package com.springboot.seckill.domain;
 
-public class SecKillInfo {
+public class SecKillOrder {
     private Long id;
     private Long userId;
     private Long  orderId;
