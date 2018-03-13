@@ -30,7 +30,30 @@ public class SecKillUserService {
 	RedisService redisService;
 	
 	public SecKillUser getById(long id) {
-		return secKillUserDao.getById(id);
+		SecKillUser user = redisService.get(SecKillUserKey.getById,""+id,SecKillUser.class);
+		if(user!=null){
+			return user;
+		}
+		user = secKillUserDao.getById(id);
+		if(user!=null){
+			redisService.set(SecKillUserKey.getById,""+id,SecKillUser.class);
+		}
+		return user;
+	}
+
+	public boolean updatePassword(long id,String passwordNew,String token){
+		SecKillUser user = getById(id);
+		if(user != null){
+			throw new GlobalException(CodeMsg.MOBILE_NOT_EXIST);
+		}
+		SecKillUser toBeUpdate = new SecKillUser();
+		toBeUpdate.setId(id);
+		toBeUpdate.setPassword(MD5Util.formPassToDBPass(passwordNew,user.getSalt()));
+		secKillUserDao.update(toBeUpdate);
+		redisService.delete(SecKillUserKey.getById,""+id);
+		user.setPassword(toBeUpdate.getPassword());
+		redisService.set(SecKillUserKey.token,token,user);
+		return true;
 	}
 	
 
@@ -47,7 +70,7 @@ public class SecKillUserService {
 	}
 	
 
-	public boolean login(HttpServletResponse response, LoginVo loginVo) {
+	public String login(HttpServletResponse response, LoginVo loginVo) {
 		if(loginVo == null) {
 			throw new GlobalException(CodeMsg.SERVER_ERROR);
 		}
@@ -66,9 +89,9 @@ public class SecKillUserService {
 			throw new GlobalException(CodeMsg.PASSWORD_ERROR);
 		}
 		//generate cookie
-		String token	 = UUIDUtil.uuid();
+		String token = UUIDUtil.uuid();
 		addCookie(response, token, user);
-		return true;
+		return token;
 	}
 	
 	private void addCookie(HttpServletResponse response, String token, SecKillUser user) {

@@ -1,16 +1,24 @@
 package com.springboot.seckill.controller;
 
+import com.springboot.seckill.domain.SecKillUser;
+import com.springboot.seckill.redis.GoodsKey;
+import com.springboot.seckill.redis.RedisService;
 import com.springboot.seckill.service.GoodsService;
+import com.springboot.seckill.service.SecKillUserService;
 import com.springboot.seckill.vo.GoodsVo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.thymeleaf.spring4.context.SpringWebContext;
+import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 
-import com.springboot.seckill.domain.SecKillUser;
-import com.springboot.seckill.redis.RedisService;
-import com.springboot.seckill.service.SecKillUserService;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
@@ -25,20 +33,43 @@ public class GoodsController {
 
 	@Autowired
 	GoodsService goodsService;
-	
-    @RequestMapping("/to_list")
-    public String list(Model model, SecKillUser user) {
+
+	@Autowired
+	ThymeleafViewResolver thymeleafViewResolver;
+
+	@Autowired
+	ApplicationContext applicationContext;
+
+    @RequestMapping(value = "/to_list",produces = "text/html")
+	@ResponseBody
+    public String list(HttpServletRequest request, HttpServletResponse response, Model model, SecKillUser user) {
     	model.addAttribute("user", user);
+		String html = redisService.get(GoodsKey.getGoodsList,"",String.class);
+		if(!StringUtils.isEmpty(html)){
+			return html;
+		}
     	List<GoodsVo> goodsList = goodsService.listGoodsVo();
 		model.addAttribute("goodsList",goodsList);
-        return "goods_list";
+
+		SpringWebContext ctx = new SpringWebContext(request,response,
+				request.getServletContext(),request.getLocale(), model.asMap(), applicationContext);
+		html = thymeleafViewResolver.getTemplateEngine().process("goods_list",ctx);
+		if(!StringUtils.isEmpty(html)){
+			redisService.set(GoodsKey.getGoodsList,"",html);
+		}
+		return html;
     }
 
-	@RequestMapping("/to_detail/{goodsid}")
-	public String detail(Model model, SecKillUser user,
+	@RequestMapping(value="/to_detail/{goodsid}",produces = "text/html")
+	@ResponseBody
+	public String detail(HttpServletRequest request, HttpServletResponse response,Model model, SecKillUser user,
 						 @PathVariable("goodsid")long goodsId) {
     	//snowflake
 		model.addAttribute("user", user);
+		String html = redisService.get(GoodsKey.getGoodsDetail,""+goodsId,String.class);
+		if(!StringUtils.isEmpty(html)){
+			return html;
+		}
 		GoodsVo goods = goodsService.getGoodsVoByGoodsId(goodsId);
 		long startAt =goods.getStartDate().getTime();
 		long endAt = goods.getEndDate().getTime();
@@ -53,10 +84,16 @@ public class GoodsController {
 			remainSeconds = -1;
 		}else{
 			seckillStatus = 1;
-			remainSeconds = 0;
+	 		remainSeconds = 0;
 		}
 		model.addAttribute("seckillStatus",seckillStatus);
 		model.addAttribute("remainSeconds",remainSeconds);
+		SpringWebContext ctx = new SpringWebContext(request,response,
+				request.getServletContext(),request.getLocale(), model.asMap(), applicationContext);
+		html = thymeleafViewResolver.getTemplateEngine().process("goods_detail",ctx);
+		if(!StringUtils.isEmpty(html)){
+			redisService.set(GoodsKey.getGoodsDetail,""+goodsId,html);
+		}
 		return "goods_detail";
 	}
     

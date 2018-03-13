@@ -1,6 +1,6 @@
 ### environment
 * Idea
-* spring boot2.0
+* spring boot1.5.8
 * redis 
 * fastjson
 * thymeleaf
@@ -107,4 +107,19 @@ create table `seckill_order`(
 `goods_id` bigint(20) DEFAULT NULL COMMENT 'goods id',
 PRIMARY KEY(`id`)
 )ENGINE = InnoDB AUTO_INCREMENT = 3 DEFAULT CHARSET = utf8mb4;
+```
+
+### presure test
+#### redis presure test
+*100 thread, 100000 request
+```
+redis-benchmark -h 127.0.0.1 -p 6379 -c 100 -n 100000
+```
+*store 100 byte data package
+```
+redis-benchmark -h 127.0.0.1 -p 6379 -q -d 100
+```
+*test set and lpush
+```
+redis-benchmark -t set,lpush -q -n 100000
 ```
