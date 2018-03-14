@@ -9,7 +9,6 @@ import com.springboot.seckill.service.GoodsService;
 import com.springboot.seckill.service.OrderService;
 import com.springboot.seckill.service.SeckillService;
 import com.springboot.seckill.vo.GoodsVo;
-import com.sun.org.apache.bcel.internal.classfile.Code;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

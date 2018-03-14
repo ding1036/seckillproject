@@ -143,6 +143,12 @@ shutdown: sudo rabbitmq-server stop
 restart: sudo rabbitmq-server restart
 check status:sudo rabbitmqctl status
 ```
+#### can not enter manager page
+```
+sudo rabbitmqctl start_app
+sudo rabbitmq-plugins enable rabbitmq_management
+sudo rabbitmqctl stop
+```
 #### how to allow remote connect
 cd /etc/rabbitmq    //your rabbitmq root path <br/>
 create rabbitmq.config, and add following code
