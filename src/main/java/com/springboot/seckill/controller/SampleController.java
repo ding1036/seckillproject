@@ -1,5 +1,6 @@
 package com.springboot.seckill.controller;
 
+import com.springboot.seckill.rabbitmq.MQSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +23,39 @@ public class SampleController {
 	
 	@Autowired
 	RedisService redisService;
-	
+
+    @Autowired
+    MQSender mqSender;
+
+
+    @RequestMapping("/mq/headers")
+    @ResponseBody
+    public Result<String> headers() {
+        mqSender.sendHeader("hello world header");
+        return Result.success("fanout mq");
+    }
+
+    @RequestMapping("/mq/fanout")
+    @ResponseBody
+    public Result<String> fanout() {
+        mqSender.sendFanout("hello world fanout");
+        return Result.success("fanout mq");
+    }
+
+    @RequestMapping("/mq/topic")
+    @ResponseBody
+    public Result<String> topic() {
+        mqSender.sendTopic("hello world topic");
+        return Result.success("topic mq");
+    }
+
+    @RequestMapping("/mq")
+    @ResponseBody
+    public Result<String> mq() {
+        mqSender.send("hello world");
+        return Result.success("mq");
+    }
+
     @RequestMapping("/hello")
     @ResponseBody
     public Result<String> home() {

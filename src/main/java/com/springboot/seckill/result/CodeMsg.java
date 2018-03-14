@@ -20,7 +20,7 @@ public class CodeMsg {
 	//list model 5003XX
 	
 	//order model 5004XX
-	
+	public static CodeMsg ORDDER_NOT_EXIST = new CodeMsg(500400, "order not exist");
 	//seckill model 5005XX
 	public static CodeMsg SECKILL_OVER = new CodeMsg(500500, "seckill over");
 	public static CodeMsg REPEATE_SECKILL = new CodeMsg(500501, "can not repeate seckill");

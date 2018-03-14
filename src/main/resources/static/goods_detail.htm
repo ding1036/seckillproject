@@ -1,0 +1,155 @@
+<!DOCTYPE HTML>
+<head>
+    <title>seckilldetail</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!-- jquery -->
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <!-- bootstrap -->
+    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+    <!-- jquery-validator -->
+    <script type="text/javascript" src="/jquery-validation/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="/jquery-validation/localization/messages_zh.min.js"></script>
+    <!-- layer -->
+    <script type="text/javascript" src="/layer/layer.js"></script>
+    <!-- md5.js -->
+    <script type="text/javascript" src="/js/md5.min.js"></script>
+    <!-- common.js -->
+    <script type="text/javascript" src="/js/common.js"></script>
+</head>
+<body>
+
+<div class="panel panel-default">
+  <div class="panel-heading">seckill goods detail</div>
+  <div class="panel-body">
+  	<span id="userTip"> please enter your account!<br/></span>
+  	<!--<span>no recieve address</span>-->
+  </div>
+  <table class="table" id="goodslist">
+  	<tr>  
+        <td>goods name</td>
+        <td colspan="3" id="goodsName"></td>
+     </tr>  
+     <tr>  
+        <td>goods picture</td>
+        <td colspan="3"><img id="goodsImg" width="200" height="200" /></td>
+     </tr>
+     <tr>  
+        <td>seckill start time</td>
+        <td id="startTime"></td>
+        <td>
+        	<input type="hidden" id="remainSeconds"  />
+        	<span id="seckillTip"></span>
+
+        </td>
+        <td>
+        	<form id="seckillForm" method="post" action="/seckill/do_seckill">
+        		<button class="btn btn-primary btn-block" type="submit" id="buyButton" onclick="doSeckill()">seckill now</button>
+        		<input type="hidden" name="goodsId" id="goodsId" />
+        	</form>
+        </td>
+     </tr>
+     <tr>  
+        <td>seckill original price</td>
+        <td colspan="3" id="goodsPrice"></td>
+     </tr>
+      <tr>  
+        <td>seckill price</td>
+        <td colspan="3" id="seckillPrice"></td>
+     </tr>
+     <tr>  
+        <td>stock</td>
+        <td colspan="3" id="stockCount"></td>
+     </tr>
+  </table>
+</div>
+</body>
+<script>
+$(function(){
+	getDetail();
+});
+
+function doSeckill(){
+	$.ajax({
+		url:"/seckill/do_seckill",
+		type:"POST",
+		data:{
+			goodsId:$("#goodsId").val(),
+		},
+		success:function(data){
+			if(data.code == 0){
+				window.location.href="/order_detail.htm?orderId="+data.data.id;
+			}else{
+				layer.msg(data.msg);
+			}
+		},
+		error:function(){
+			layer.msg("client request error");
+		}
+	});
+
+}
+
+
+function getDetail(){
+    var goodsId = g_getQueryString("goodsId");
+	$.ajax({
+		url:"/goods/detail/"+goodsId,
+		type:"GET",
+		success:function(data){
+			if(data.code == 0){
+				render(data.data);
+			}else{
+				layer.msg(data.msg);
+			}
+		},
+		error:function(){
+			layer.msg("client request error");
+		}
+	});
+}
+
+function render(detail){
+	var seckillStatus = detail.seckillStatus;
+	var  remainSeconds = detail.remainSeconds;
+	var goods = detail.goods;
+	var user = detail.user;
+	if(user){
+		$("#userTip").hide();
+	}
+	$("#goodsName").text(goods.goodsName);
+	$("#goodsImg").attr("src", goods.goodsImg);
+	$("#startTime").text(new Date(goods.startDate).format("yyyy-MM-dd hh:mm:ss"));
+	$("#remainSeconds").val(remainSeconds);
+	$("#goodsId").val(goods.id);
+	$("#goodsPrice").text(goods.goodsPrice);
+	$("#seckillPrice").text(goods.miaoshaPrice);
+	$("#stockCount").text(goods.stockCount);
+	countDown();
+}
+
+function countDown(){
+	var remainSeconds = $("#remainSeconds").val();
+	var timeout;
+	if(remainSeconds > 0){
+		$("#buyButton").attr("disabled", true);
+		$("#seckillTip").html("seckill start in："+remainSeconds+"seconds");
+		timeout = setTimeout(function(){
+			$("#countDown").text(remainSeconds - 1);
+			$("#remainSeconds").val(remainSeconds - 1);
+			countDown();
+		},1000);
+	}else if(remainSeconds == 0){
+		$("#buyButton").attr("disabled", false);
+		if(timeout){
+			clearTimeout(timeout);
+		}
+		$("#seckillTip").html("seckilling");
+	}else{
+		$("#buyButton").attr("disabled", true);
+		$("#seckillTip").html("seckill end");
+	}
+}
+
+</script>
+</html>

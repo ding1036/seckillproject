@@ -6,6 +6,8 @@
 * thymeleaf
 * mysql
 * druid
+* RabbitMq
+* Erlang
 
 ### database structure
 #### create database
@@ -98,13 +100,6 @@ create table `order_info`(
 PRIMARY KEY(`id`)
 )ENGINE = InnoDB AUTO_INCREMENT = 3 DEFAULT CHARSET = utf8mb4;
 ```
-
-
-### test sql
-```
-update seckill_goods set start_date = '2018-03-13 20:54:00',end_date = '2018-03-13 20:56:00' where id in ('1','2');
-
-```
 #### create table `seckill_order`
 ```
 create table `seckill_order`(
@@ -115,7 +110,16 @@ create table `seckill_order`(
 PRIMARY KEY(`id`)
 )ENGINE = InnoDB AUTO_INCREMENT = 3 DEFAULT CHARSET = utf8mb4;
 ```
+#### create unique index to avoid one user request more than once at the same time
+```
+create unique index u_uid_gid on seckill_order(user_id,goods_id);
+alter table `seckill_order` add unique index `u_uid_gid`('user_id','goods_id');
+``` 
+### test sql
+```
+update seckill_goods set start_date = '2018-03-13 20:54:00',end_date = '2018-03-13 20:56:00' where id in ('1','2');
 
+```
 ### presure test
 #### redis presure test
 *100 thread, 100000 request
@@ -130,3 +134,19 @@ redis-benchmark -h 127.0.0.1 -p 6379 -q -d 100
 ```
 redis-benchmark -t set,lpush -q -n 100000
 ```
+### rabbitmq
+#### basic install & operation
+install Erlang and rabbitmq: http://blog.csdn.net/a295277302/article/details/71246941
+start£ºsudo rabbitmq-server start
+shutdown£º sudo rabbitmq-server stop
+restart£º sudo rabbitmq-server restart
+check status£ºsudo rabbitmqctl status
+#### allow remote connect
+cd /etc/rabbitmq    //your rabbitmq root path <br/>
+create rabbitmq.config, and add fllowing code
+```
+[{rabbit, [{loopback_users, []}]}].
+
+```
+you can find details in: http://www.rabbitmq.com/access-control.html
+

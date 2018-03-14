@@ -3,8 +3,10 @@ package com.springboot.seckill.controller;
 import com.springboot.seckill.domain.SecKillUser;
 import com.springboot.seckill.redis.GoodsKey;
 import com.springboot.seckill.redis.RedisService;
+import com.springboot.seckill.result.Result;
 import com.springboot.seckill.service.GoodsService;
 import com.springboot.seckill.service.SecKillUserService;
+import com.springboot.seckill.vo.GoodsDetailVo;
 import com.springboot.seckill.vo.GoodsVo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +61,7 @@ public class GoodsController {
 		return html;
     }
 
-	@RequestMapping(value="/to_detail/{goodsid}",produces = "text/html")
+	/*@RequestMapping(value="/to_detail/{goodsid}",produces = "text/html")
 	@ResponseBody
 	public String detail(HttpServletRequest request, HttpServletResponse response,Model model, SecKillUser user,
 						 @PathVariable("goodsid")long goodsId) {
@@ -95,6 +97,33 @@ public class GoodsController {
 			redisService.set(GoodsKey.getGoodsDetail,""+goodsId,html);
 		}
 		return html;
+	}*/
+	@RequestMapping(value="/detail/{goodsid}")
+	@ResponseBody
+	public Result<GoodsDetailVo> detail(HttpServletRequest request, HttpServletResponse response, Model model, SecKillUser user,
+										@PathVariable("goodsid")long goodsId) {
+		GoodsVo goods = goodsService.getGoodsVoByGoodsId(goodsId);
+		long startAt =goods.getStartDate().getTime();
+		long endAt = goods.getEndDate().getTime();
+		long now = System.currentTimeMillis();
+		int seckillStatus = 0;
+		int remainSeconds = 0;
+		if(now < startAt){
+			seckillStatus = 0;
+			remainSeconds = (int)((startAt -now)/1000);
+		}else if(now>endAt){
+			seckillStatus = 2;
+			remainSeconds = -1;
+		}else{
+			seckillStatus = 1;
+			remainSeconds = 0;
+		}
+		GoodsDetailVo goodsDetailVo = new GoodsDetailVo();
+		goodsDetailVo.setGoodsVo(goods);
+		goodsDetailVo.setRemainSeconds(remainSeconds);
+		goodsDetailVo.setSeckillStatus(seckillStatus);
+		goodsDetailVo.setUser(user);
+		return Result.success(goodsDetailVo);
 	}
     
 }
