@@ -137,13 +137,15 @@ redis-benchmark -t set,lpush -q -n 100000
 ### rabbitmq
 #### basic install & operation
 install Erlang and rabbitmq: http://blog.csdn.net/a295277302/article/details/71246941
-start£ºsudo rabbitmq-server start
-shutdown£º sudo rabbitmq-server stop
-restart£º sudo rabbitmq-server restart
-check status£ºsudo rabbitmqctl status
+```
+start:sudo rabbitmq-server start
+shutdown: sudo rabbitmq-server stop
+restart: sudo rabbitmq-server restart
+check status:sudo rabbitmqctl status
+```
 #### allow remote connect
 cd /etc/rabbitmq    //your rabbitmq root path <br/>
-create rabbitmq.config, and add fllowing code
+create rabbitmq.config, and add following code
 ```
 [{rabbit, [{loopback_users, []}]}].
 
