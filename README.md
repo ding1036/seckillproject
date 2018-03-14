@@ -122,15 +122,15 @@ update seckill_goods set start_date = '2018-03-13 20:54:00',end_date = '2018-03-
 ```
 ### presure test
 #### redis presure test
-*100 thread, 100000 request
+* 100 thread, 100000 request
 ```
 redis-benchmark -h 127.0.0.1 -p 6379 -c 100 -n 100000
 ```
-*store 100 byte data package
+* store 100 byte data package
 ```
 redis-benchmark -h 127.0.0.1 -p 6379 -q -d 100
 ```
-*test set and lpush
+* test set and lpush
 ```
 redis-benchmark -t set,lpush -q -n 100000
 ```
@@ -143,7 +143,7 @@ shutdown: sudo rabbitmq-server stop
 restart: sudo rabbitmq-server restart
 check status:sudo rabbitmqctl status
 ```
-#### allow remote connect
+#### how to allow remote connect
 cd /etc/rabbitmq    //your rabbitmq root path <br/>
 create rabbitmq.config, and add following code
 ```
