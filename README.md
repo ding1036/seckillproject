@@ -1,5 +1,6 @@
 ### environment
 * Idea
+* ubuntu
 * spring boot1.5.8
 * redis 
 * fastjson
@@ -8,7 +9,6 @@
 * druid
 * RabbitMq
 * Erlang
-
 ### database structure
 #### create database
 ```
@@ -160,3 +160,5 @@ create rabbitmq.config, and add following code
 ```
 you can find details in: http://www.rabbitmq.com/access-control.html
 
+### login page
+http://localhost:8080/login/to_login

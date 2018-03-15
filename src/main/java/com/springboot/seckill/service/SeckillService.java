@@ -49,7 +49,7 @@ public class SeckillService {
     public long getSeckillResult(Long userId, long goodsId) {
         SecKillOrder secKillOrder = orderService.getSeckillOrderByUserIdGoodsId(userId,goodsId);
         if(secKillOrder != null) {
-            return secKillOrder.getGoodsId();
+            return secKillOrder.getOrderId();
         }else {
             boolean isOver = getGoodsOver(goodsId);
             if(isOver){
@@ -82,7 +82,7 @@ public class SeckillService {
         if(user==null||goodsId <=0){
             return null;
         }
-        int width = 80;
+        int width = 100;
         int height = 32;
         //create the image
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);

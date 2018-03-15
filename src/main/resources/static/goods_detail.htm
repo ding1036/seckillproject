@@ -43,11 +43,11 @@
 
         </td>
         <td>
-            <div>
+            <div class="row">
                 <div class="form-inline">
-                <img id="verifyCodeImg" width="80" height="32" style="display:none" onclick="refreshVerifyCode()"/>
-                <input id="verifyCode"  class="form-control" style="display:none"/>
-        		<button class="btn btn-primary btn-block" type="submit" id="buyButton" onclick="getSeckillPath()">seckill now</button>
+                    <img id="verifyCodeImg" width="100" height="32" style="display:none" onclick="refreshVerifyCode()"/>
+                    <input id="verifyCode"  class="form-control" style="display:none"/>
+                    <button class="btn btn-primary" type="submit" id="buyButton" onclick="getSeckillPath()">seckill now</button>
                 </div>
             </div>
                 <input type="hidden" name="goodsId" id="goodsId" />
@@ -75,7 +75,7 @@ $(function(){
 	getDetail();
 });
 
-getSeckillResult(goodsId){
+function getSeckillResult(goodsId){
     $.ajax({
 		url:"/seckill/result",
 		type:"GET",
@@ -182,7 +182,7 @@ function getDetail(){
 function render(detail){
 	var seckillStatus = detail.seckillStatus;
 	var  remainSeconds = detail.remainSeconds;
-	var goods = detail.goods;
+	var goods = detail.goodsVo;
 	var user = detail.user;
 	if(user){
 		$("#userTip").hide();
@@ -193,7 +193,7 @@ function render(detail){
 	$("#remainSeconds").val(remainSeconds);
 	$("#goodsId").val(goods.id);
 	$("#goodsPrice").text(goods.goodsPrice);
-	$("#seckillPrice").text(goods.miaoshaPrice);
+	$("#seckillPrice").text(goods.seckillPrice);
 	$("#stockCount").text(goods.stockCount);
 	countDown();
 }
