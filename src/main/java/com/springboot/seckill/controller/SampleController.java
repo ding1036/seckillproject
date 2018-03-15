@@ -28,7 +28,7 @@ public class SampleController {
     MQSender mqSender;
 
 
-    @RequestMapping("/mq/headers")
+    /*@RequestMapping("/mq/headers")
     @ResponseBody
     public Result<String> headers() {
         mqSender.sendHeader("hello world header");
@@ -54,7 +54,7 @@ public class SampleController {
     public Result<String> mq() {
         mqSender.send("hello world");
         return Result.success("mq");
-    }
+    }*/
 
     @RequestMapping("/hello")
     @ResponseBody

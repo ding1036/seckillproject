@@ -136,7 +136,9 @@ redis-benchmark -t set,lpush -q -n 100000
 ```
 ### rabbitmq
 #### basic install & operation
-install Erlang and rabbitmq: http://blog.csdn.net/a295277302/article/details/71246941
+* install Erlang and rabbitmq: http://blog.csdn.net/a295277302/article/details/71246941
+* management page default port: 15672
+* service default port :5672
 ```
 start:sudo rabbitmq-server start
 shutdown: sudo rabbitmq-server stop

@@ -22,10 +22,11 @@ public class GoodsService {
         return goodsDao.getGoodsVo(goodsId);
     }
 
-    public void reduceStock(GoodsVo goods) {
+    public boolean reduceStock(GoodsVo goods) {
         SecKillGoods secKillGoods = new SecKillGoods();
         secKillGoods.setGoodsId(goods.getId());
         secKillGoods.setStockCount(goods.getStockCount());
-        goodsDao.reduceStock(secKillGoods);
+        int result  = goodsDao.reduceStock(secKillGoods);
+        return result>0;
     }
 }
